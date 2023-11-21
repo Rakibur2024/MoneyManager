@@ -9,12 +9,21 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "types")
-public class Type {
+@Table(name = "sub_events")
+public class SubEvent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "type_name")
-    private String typeName;
+    @Column(name = "sub_event_name")
+    private String subEventName;
+
+    @ManyToOne(
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(
+            name = "event_id",
+            referencedColumnName = "id"
+    )
+    private Event event;
 }
