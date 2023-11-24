@@ -19,8 +19,7 @@ public class Event {
     private String eventName;
 
     @ManyToOne(
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY
+            fetch = FetchType.EAGER
     )
     @JoinColumn(
             name = "type_id",
