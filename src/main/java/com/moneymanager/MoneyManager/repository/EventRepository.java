@@ -12,5 +12,6 @@ import java.util.List;
 public interface EventRepository extends JpaRepository<Event, Long> {
     Long countByEventName(String eventName);
     List<Event> findByTypeId(Long typeId, Pageable pageable);
+    Long countById(Long id);
 
 }

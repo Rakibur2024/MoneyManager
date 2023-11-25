@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/event")
@@ -40,5 +41,20 @@ public class EventController {
     @GetMapping("/listByType/{typeId}")
     public List<Event> eventListByType(@Param("typeId") Long typeId){
         return eventService.eventListByType(typeId);
+    }
+
+    @GetMapping("/byid/{id}")
+    public Optional<Event> eventById(@Param("id") Long id){
+        return eventService.eventById(id);
+    }
+
+    @DeleteMapping("/delete/byid/{id}")
+    public ResponseEntity<ResponseMessage> eventDeleteById(@Param("id") Long id){
+        return eventService.eventDeleteById(id);
+    }
+
+    @PutMapping("/update/byid/{id}")
+    public Event eventUpdateById(@RequestBody Event event, @Param("id") Long id){
+        return eventService.eventUpdateById(event,id);
     }
 }

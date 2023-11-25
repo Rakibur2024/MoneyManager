@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class EventServiceImpl implements EventService {
@@ -76,5 +78,41 @@ public class EventServiceImpl implements EventService {
         );
         List<Event> events = eventRepo.findByTypeId(typeId,pageable);
         return events;
+    }
+
+    @Override
+    public Optional<Event> eventById(Long id){
+        Optional<Event> event = eventRepo.findById(id);
+        return event;
+    }
+
+    @Override
+    public ResponseEntity<ResponseMessage> eventDeleteById(Long id){
+        Long countById = eventRepo.countById(id);
+        if(countById > 0){
+            eventRepo.deleteById(id);
+
+            responseMessage = new ResponseMessage("Deleted Event Successfully!");
+            return new ResponseEntity<ResponseMessage>(responseMessage,HttpStatus.OK);
+        } else {
+            responseMessage = new ResponseMessage("Sorry ! Invalid ID!!!");
+            return new ResponseEntity<ResponseMessage>(responseMessage,HttpStatus.OK);
+        }
+    }
+
+    @Override
+    public Event eventUpdateById(Event event, Long id){
+        Event eventDb = eventRepo.findById(id).get();
+
+        if (Objects.nonNull(event.getEventName()) && !"".equalsIgnoreCase(event.getEventName())){
+            eventDb.setEventName(event.getEventName());
+        }
+
+        if (Objects.nonNull(event.getType())){
+            eventDb.setType(event.getType());
+        }
+
+        return eventRepo.save(eventDb);
+
     }
 }
